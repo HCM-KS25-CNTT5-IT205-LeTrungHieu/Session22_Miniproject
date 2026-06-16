@@ -8,7 +8,12 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-# --- CÁC HÀM XỬ LÝ NGHIỆP VỤ ---
+
+def find_device_by_id(id: str, devices_list: list):
+    for d in devices_list:
+        if d["id"] == id:
+            return d
+    return None
 
 
 def show_devices(devices_list):
@@ -36,11 +41,7 @@ def update_indices(devices_list):
     device_id = input("Nhập mã thiết bị cần cập nhật chỉ số: ")
 
     # Tìm kiếm thiết bị
-    device = None
-    for d in devices_list:
-        if d["id"] == device_id:
-            device = d
-            break
+    device = find_device_by_id(device_id, devices_list)
 
     if not device:
         print(
@@ -96,11 +97,7 @@ def trigger_overload_alert(devices_list):
     """2.3. Chức năng 3: Kích hoạt trạng thái cảnh báo quá tải"""
     device_id = input("Nhập mã thiết bị cần cảnh báo: ")
 
-    device = None
-    for d in devices_list:
-        if d["id"] == device_id:
-            device = d
-            break
+    device = find_device_by_id(device_id, devices_list)
 
     if not device:
         print(
@@ -151,9 +148,6 @@ def calculate_energy_financials(devices_list):
     total_cost = total_kwh * base_price * (1 - discount_percent)
 
     return (float(total_kwh), float(discount_percent), float(total_cost))
-
-
-# --- HÀM ĐIỀU PHỐI CHÍNH ---
 
 
 def main():
